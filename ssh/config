@@ -1,0 +1,5 @@
+Host *
+  ForwardAgent yes
+  Identityfile ~/.ssh/id_rsa
+  ServerAliveInterval 50
+  ServerAliveCountMax 2
