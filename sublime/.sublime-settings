@@ -1,0 +1,38 @@
+{
+  "bold_folder_labels": true,
+  "caret_style": "phase",
+  "color_scheme": "Packages/Dracula Color Scheme/Dracula.tmTheme",
+  "detect_indentation": true,
+  "ensure_newline_at_eof_on_save": true,
+  "flake8":
+  {
+    "@disable": false,
+    "args":
+    [
+      "--ignore=E501,E111"
+    ],
+    "builtins": "",
+    "excludes":
+    [
+    ],
+    "executable": "",
+    "ignore":
+    [
+    ],
+    "jobs": "1",
+    "max-complexity": -1,
+    "max-line-length": null,
+    "select": "",
+    "show-code": false
+  },
+  "font_size": 12,
+  "highlight_line": true,
+  "ignored_packages":
+  [
+    "Vintage"
+  ],
+  "tab_size": 2,
+  "theme": "Adaptive.sublime-theme",
+  "translate_tabs_to_spaces": true,
+  "trim_trailing_white_space_on_save": true
+}
