@@ -113,7 +113,7 @@ function kube-reboot
 # Usage: `github-find searchstring`
 # Searches an organizations code base for string
 function github-find {
-  curl -s -u $GITHUB_USERNAME:"$GITHUB_OAUTH" https://api.github.com/search/code\?q\=$1+in:file+org:$GITHUB_ORG | jq '.items | .[].html_url'
+  curl -s -u $GITHUB_USERNAME:"$GITHUB_TOKEN" https://api.github.com/search/code\?q\=$1+in:file+org:$GITHUB_ORG | jq '.items | .[].html_url'
 }
 
 ##############################

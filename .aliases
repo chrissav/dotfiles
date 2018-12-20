@@ -1,0 +1,13 @@
+# Shorter names
+alias kc=`/usr/local/bin/kubectl`
+alias tf=`/usr/local/bin/terraform`
+
+# AWS
+alias aws-ecr-login='eval $(aws ecr get-login --no-include-email --region us-west-2)'
+
+# URL encode given string
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+
+# allow aliases to be used with these
+alias watch='watch '
+alias sudo='sudo '

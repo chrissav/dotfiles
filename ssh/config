@@ -1,4 +1,5 @@
 Host *
+  UseKeychain yes
   ForwardAgent yes
   Identityfile ~/.ssh/id_rsa
   ServerAliveInterval 50
