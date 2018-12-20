@@ -4,6 +4,7 @@
 autoload bashcompinit
 bashcompinit
 
+# credit to https://github.com/dstreby/dotfiles for most kube and misc functions
 ##############################
 #### Kubernetes functions ####
 ##############################
