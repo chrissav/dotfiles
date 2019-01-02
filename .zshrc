@@ -11,7 +11,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # Load .bashrc and other files...
-for file in ~/.{bashrc,aliases,functions,extras,exports}; do
+for file in ~/.{bashrc,aliases,functions,extras}; do
   if [[ -r "$file" ]] && [[ -f "$file" ]]; then
     source "$file"
   fi
