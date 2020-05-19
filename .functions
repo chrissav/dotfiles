@@ -10,6 +10,7 @@ bashcompinit
 ##############################
 
 # Quickly display / switch kubernetes contexts
+
 function kcsc
 {
   local context=${1}
@@ -107,6 +108,28 @@ function kube-reboot
   fi
 }
 
+function get-instance-dns-by-id
+{
+  local dns=$(aws ec2 describe-instances --output text --filters Name=instance-id,Values=$1 \
+ --query "Reservations[*].Instances[*].[PrivateDnsName]")
+  echo "${dns}"
+}
+
+##############################
+##### Datadog functions ######
+##############################
+
+function datadog {
+  local command=$1
+
+  local leader=$(datadog-leader)
+  kubectl exec -n kube-system $leader datadog-cluster-agent $command
+}
+
+function datadog-leader {
+  kubectl get cm datadog-leader-election -o yaml -n kube-system | grep holderIdentity | awk '{print $2}' | tr -d \' | jq -r .holderIdentity
+}
+
 ##############################
 ###### Github functions ######
 ##############################
@@ -186,4 +209,9 @@ function extract {
         echo "'$1' - file does not exist"
       fi
   fi
+}
+
+function flush-dns() {
+  dscacheutil -flushcache
+  sudo killall -HUP mDNSResponder
 }
