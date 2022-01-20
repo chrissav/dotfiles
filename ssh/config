@@ -1,6 +1,9 @@
 Host *
   UseKeychain yes
+  AddKeysToAgent yes
   ForwardAgent yes
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
   Identityfile ~/.ssh/id_rsa
   ServerAliveInterval 50
   ServerAliveCountMax 2

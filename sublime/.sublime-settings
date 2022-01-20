@@ -23,16 +23,16 @@
     "max-complexity": -1,
     "max-line-length": null,
     "select": "",
-    "show-code": false
+    "show-code": false,
   },
-  "font_size": 12,
+  "font_size": 14,
   "highlight_line": true,
   "ignored_packages":
   [
-    "Vintage"
+    "Vintage",
   ],
   "tab_size": 2,
   "theme": "Adaptive.sublime-theme",
   "translate_tabs_to_spaces": true,
-  "trim_trailing_white_space_on_save": true
+  "trim_trailing_white_space_on_save": true,
 }

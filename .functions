@@ -123,11 +123,18 @@ function datadog {
   local command=$1
 
   local leader=$(datadog-leader)
-  kubectl exec -n kube-system $leader datadog-cluster-agent $command
+  kubectl exec $leader -- datadog-cluster-agent $command
+}
+
+function datadog-agent {
+  local command=$1
+
+  local leader=$(datadog-leader)
+  kubectl exec $leader -- datadog-agent $command
 }
 
 function datadog-leader {
-  kubectl get cm datadog-leader-election -o yaml -n kube-system | grep holderIdentity | awk '{print $2}' | tr -d \' | jq -r .holderIdentity
+  kubectl get cm datadog-leader-election -o yaml | grep holderIdentity | awk '{print $2}' | tr -d \' | jq -r .holderIdentity
 }
 
 ##############################
@@ -214,4 +221,28 @@ function extract {
 function flush-dns() {
   dscacheutil -flushcache
   sudo killall -HUP mDNSResponder
+}
+
+vpn-connect ()
+{
+  local command="${1:-status}";
+  local -r _vpn_bin='/opt/cisco/anyconnect/bin/vpn';
+  case "$command" in
+    s | status)
+      echo -e 'Checking current VPN status...\n';
+      eval "${_vpn_bin} -s state"
+    ;;
+    c | connect)
+      echo -e 'Connecting to VPN...\n';
+      _vpn_autoconnect
+    ;;
+    d | disconnect)
+      echo -e 'Disconnecting from VPN...\n';
+      eval "${_vpn_bin} -s disconnect"
+    ;;
+    *)
+      echo "Invalid option '${command}' ([s]tatus|[c]onnect|[d]isconnect)";
+      return 1
+    ;;
+  esac
 }

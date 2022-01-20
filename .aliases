@@ -12,3 +12,5 @@ alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.ar
 alias watch='watch '
 alias sudo='sudo '
 alias composer='php /usr/local/bin/composer.phar'
+
+alias _vpn_autoconnect='/Users/csavadel/Desktop/repos/chrissav/dotfiles/_vpn_autoconnect'
