@@ -1,5 +1,5 @@
 # Shorter names
-alias kc='/usr/local/bin/kubectl'
+alias kc='/usr/local/bin/kubecolor'
 alias tf='/usr/local/bin/terraform'
 
 # AWS
@@ -11,6 +11,6 @@ alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.ar
 # allow aliases to be used with these
 alias watch='watch '
 alias sudo='sudo '
-alias composer='php /usr/local/bin/composer.phar'
+alias xargs='xargs '
 
-alias _vpn_autoconnect='/Users/csavadel/Desktop/repos/chrissav/dotfiles/_vpn_autoconnect'
+alias composer='/usr/local/bin/composer.phar'

@@ -15,15 +15,15 @@ function kcsc
 {
   local context=${1}
   if [[ -z "$context" ]]; then
-    kubectl config get-contexts
+    kc config get-contexts
   else
-    kubectl config use-context ${context}
+    kc config use-context ${context}
   fi
 }
 
 function _kcsc_complete {
     local word=${COMP_WORDS[COMP_CWORD]}
-    local list=$(kubectl config get-contexts --no-headers | tr -d '\*' | awk '{print $1}')
+    local list=$(kc config get-contexts --no-headers | tr -d '\*' | awk '{print $1}')
     list=$(compgen -W "$list" -- "$word")
     COMPREPLY=($list)
     return 0
@@ -35,17 +35,17 @@ function kcns
 {
   local namespace=${1}
   if [[ -z "$namespace" ]]; then
-    kubectl get ns
+    kc get ns
   else
-    local context=$(kubectl config current-context)
+    local context=$(kc config current-context)
     echo "Setting context ${context} to namespace ${namespace}..."
-    kubectl config set-context ${context} --namespace ${namespace}
+    kc config set-context ${context} --namespace ${namespace}
   fi
 }
 
 function _kcns_complete {
     local word=${COMP_WORDS[COMP_CWORD]}
-    local list=$(kubectl get ns --no-headers | awk '{print $1}')
+    local list=$(kc get ns --no-headers | awk '{print $1}')
     list=$(compgen -W "$list" -- "$word")
     COMPREPLY=($list)
     return 0
@@ -71,7 +71,13 @@ function kube-shell
   local cmd=$@
   cmd=${cmd:-bash}
 
-  kubectl exec -it $pod $container -- env COLUMNS=$cols LINES=$lines TERM=$term "$cmd"
+  echo "kc exec -it $pod $container -- env COLUMNS=$cols LINES=$lines TERM=$term \"$cmd\""
+  kc exec -it $pod $container -- env COLUMNS=$cols LINES=$lines TERM=$term "$cmd"
+}
+
+function kc-get-all {
+  kc api-resources --verbs=list --namespaced -o name | \
+  xargs -n1 kubecolor get --show-kind --ignore-not-found "$@"
 }
 
 # Reboot ec2 instance given the private ip dns from `kc get nodes` in the NotReady status
@@ -123,18 +129,25 @@ function datadog {
   local command=$1
 
   local leader=$(datadog-leader)
-  kubectl exec $leader -- datadog-cluster-agent $command
+  kubectl -n datadog-trial exec $leader -- datadog-cluster-agent $command
 }
 
 function datadog-agent {
   local command=$1
 
   local leader=$(datadog-leader)
-  kubectl exec $leader -- datadog-agent $command
+  kubectl -n datadog-trial exec $leader -- datadog-agent $command
 }
 
 function datadog-leader {
-  kubectl get cm datadog-leader-election -o yaml | grep holderIdentity | awk '{print $2}' | tr -d \' | jq -r .holderIdentity
+  kubectl get cm datadog-trial-leader-election -n datadog-trial -o yaml | grep holderIdentity | awk '{print $2}' | tr -d \' | jq -r .holderIdentity
+}
+
+function datadog-find-pod {
+  local pod=$1
+
+  local node=$(kc get pod $pod -o json | jq .spec.nodeName)
+  kc get pods -n datadog-trial --field-selector spec.nodeName=$node -o json | jq '.items[] | .metadata.name'
 }
 
 ##############################

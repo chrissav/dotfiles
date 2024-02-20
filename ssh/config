@@ -4,6 +4,6 @@ Host *
   ForwardAgent yes
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
-  Identityfile ~/.ssh/id_rsa
+  Identityfile ~/.ssh/id_ed25519
   ServerAliveInterval 50
   ServerAliveCountMax 2
